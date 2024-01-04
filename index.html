@@ -1,0 +1,74 @@
+<!--
+  Hit RUN to see this project in action!
+  
+  This project will auto-refresh as you edit the HTML, CSS and JS.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <input
+    value=""
+    id="input">
+  Random scramble: <input type="checkbox" id="random">
+  <div id="container" style="display: flex; flex-wrap: wrap"></div>
+  <script>
+    function scrambleList(originalList) {
+      // Create a copy of the original list
+      const copyList = originalList.slice();
+
+      // Function to shuffle an array
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      // Shuffle the copy
+      return shuffleArray(copyList);
+    }
+
+
+    const input = document.getElementById('input');
+    const checkbox = document.getElementById('random');
+    const container = document.getElementById('container');
+    const size = 300;
+    const doStuff = () => {
+      const inputValue = input.value;
+      const splitInput = inputValue.split(',');
+      if (checkbox.checked) {
+        splitInput.splice(0, splitInput.length, ...scrambleList(splitInput))
+      }
+
+      container.innerHTML = '';
+      console.log(splitInput);
+      splitInput.forEach((it, idx) => {
+        it = it.trim();
+        const img = document.createElement('img');
+        img.src = it;
+        img.height = size;
+        img.style.margin = '10px';
+        img.onclick = () => confirm('Delete img?') && ((input.value = [...splitInput.slice(0, idx), ...splitInput.slice(idx + 1)]), doStuff());
+        container.appendChild(img);
+      });
+    };
+
+    doStuff();
+    input.addEventListener('input', doStuff)
+    checkbox.addEventListener('change', doStuff)
+  </script>
+  
+
+</body>
+
+</html>
