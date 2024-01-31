@@ -67,7 +67,7 @@
 
     const exportJson = () => {
       const inputValue = input.value;
-      const splitInput = inputValue.split(',');
+      const splitInput = inputValue.split(',').map(item => item.trim());
       if (checkbox.checked) {
         splitInput.splice(0, splitInput.length, ...scrambleList(splitInput))
       }
